@@ -40,7 +40,7 @@ export const getProductsByType = async (type: string) => {
   return data;
 };
 
-function organizeServices(data: (string | undefined)[][]): any[] {
+function organizeServices(data: (string | undefined)[][]): Service[] {
   // Skip the header row and then filter out any rows where all cells are undefined or empty strings.
   const serviceRows = data
     .slice(1)
@@ -72,8 +72,8 @@ function organizeServices(data: (string | undefined)[][]): any[] {
 
     return {
       tipoDeServicio: tipoDeServicio || null,
-      slug: slug || null,
-      titulo: titulo || null,
+      slug: slug || "",
+      titulo: titulo || "",
       disponible: isAvailable,
       descripcionCompleta: descripcionCompleta || null,
       valor: numericValue,

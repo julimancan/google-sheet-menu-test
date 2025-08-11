@@ -45,11 +45,12 @@ export const generateMetadata = async (): Promise<Metadata> => {
 const forum = Forum({
   weight: "400",
   variable: "--font-forum",
+  subsets: ["latin"],
 });
 const alegreya = Alegreya_Sans({
   weight: "400",
   variable: "--font-alegreya",
-  // subsets: ["latin"],
+  subsets: ["latin"],
 });
 export default async function RootLayout({
   children,
