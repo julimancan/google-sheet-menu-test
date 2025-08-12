@@ -30,8 +30,14 @@ export const getMenuCategories = async (): Promise<Category[] | null> => {
 
   const categories = data
     .slice(1)
-    .filter((row) => row.some((cell) => cell.trim() !== ""))
-    .filter((row) => row[0] && row[0].trim() !== "")
+    .filter((row) =>
+      row.some(
+        (cell) =>
+          cell != null &&
+          (typeof cell === "string" ? cell.trim() !== "" : cell != null)
+      )
+    )
+    .filter((row) => typeof row[0] === "string" && row[0].trim() !== "")
     .map((row) => {
       // Map the array indices to our new object keys
       const [
@@ -46,14 +52,42 @@ export const getMenuCategories = async (): Promise<Category[] | null> => {
       ] = row;
 
       return {
-        name: name || "",
-        slug: slug || "",
-        parentCategory: parentCategory || null,
-        isAvailable: isAvailable?.toUpperCase() === "TRUE",
-        image: image || null,
-        imageLink: imageLink || null,
-        linkTitle: linkTitle || null,
-        title: title || null,
+        name: typeof name === "string" ? name : String(name || ""),
+        slug: typeof slug === "string" ? slug : String(slug || ""),
+        parentCategory:
+          parentCategory != null
+            ? typeof parentCategory === "string"
+              ? parentCategory
+              : String(parentCategory)
+            : null,
+        isAvailable:
+          typeof isAvailable === "string"
+            ? isAvailable.toUpperCase() === "TRUE"
+            : String(isAvailable).toUpperCase() === "TRUE",
+        image:
+          image != null
+            ? typeof image === "string"
+              ? image
+              : String(image)
+            : null,
+        imageLink:
+          imageLink != null
+            ? typeof imageLink === "string"
+              ? imageLink
+              : String(imageLink)
+            : null,
+        linkTitle:
+          linkTitle != null
+            ? typeof linkTitle === "string"
+              ? linkTitle
+              : String(linkTitle)
+            : null,
+        title:
+          title != null
+            ? typeof title === "string"
+              ? title
+              : String(title)
+            : null,
       };
     });
 

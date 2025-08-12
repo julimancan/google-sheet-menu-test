@@ -54,7 +54,7 @@ type ConfigData = [string, string, string | undefined];
 
 type OrganizedConfig = Record<string, Record<string, string | null>>;
 
-function organizeConfig(data: (string | undefined)[][]): OrganizedConfig {
+function organizeConfig(data: (string | number | null)[][]): OrganizedConfig {
   const config: OrganizedConfig = {};
 
   // Skip the first two header rows

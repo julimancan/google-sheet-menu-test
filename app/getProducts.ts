@@ -40,7 +40,7 @@ export const getProductsByType = async (type: string) => {
   return data;
 };
 
-function organizeServices(data: (string | undefined)[][]): Service[] {
+function organizeServices(data: (string | number | null)[][]): Service[] {
   // Skip the header row and then filter out any rows where all cells are undefined or empty strings.
   const serviceRows = data
     .slice(1)
@@ -65,20 +65,37 @@ function organizeServices(data: (string | undefined)[][]): Service[] {
     ] = row;
 
     // Convert 'TRUE'/'FALSE' string to a boolean.
-    const isAvailable = disponible?.toUpperCase() === "TRUE";
+    const isAvailable =
+      typeof disponible === "string"
+        ? disponible.toUpperCase() === "TRUE"
+        : Boolean(disponible);
 
     // Convert the 'valor' string to a number, removing any thousands separators.
-    const numericValue = valor ? parseInt(valor.replace(/\./g, ""), 10) : 0;
+    const numericValue =
+      typeof valor === "string"
+        ? parseInt(valor.replace(/\./g, ""), 10)
+        : typeof valor === "number"
+        ? valor
+        : 0;
 
     return {
-      tipoDeServicio: tipoDeServicio || null,
-      slug: slug || "",
-      titulo: titulo || "",
+      tipoDeServicio:
+        tipoDeServicio !== undefined && tipoDeServicio !== null
+          ? String(tipoDeServicio)
+          : null,
+      slug: slug !== undefined && slug !== null ? String(slug) : "",
+      titulo: titulo !== undefined && titulo !== null ? String(titulo) : "",
       disponible: isAvailable,
-      descripcionCompleta: descripcionCompleta || null,
+      descripcionCompleta:
+        descripcionCompleta !== undefined && descripcionCompleta !== null
+          ? String(descripcionCompleta)
+          : null,
       valor: numericValue,
-      imagen: imagen || null,
-      categoria: categoria || null,
+      imagen: imagen !== undefined && imagen !== null ? String(imagen) : null,
+      categoria:
+        categoria !== undefined && categoria !== null
+          ? String(categoria)
+          : null,
     };
   });
 }
